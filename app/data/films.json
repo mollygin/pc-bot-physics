@@ -1,0 +1,30 @@
+{
+    "films": [
+        {
+            "title": "7 \u043a\u043b\u0430\u0441",
+            "url": "https://brain-school.com.ua/7-j-klas-6/",
+            "photo":
+                "https://brain-school.com.ua/wp-content/uploads/2023/06/1-6.jpg"
+        },
+        {
+            "title": "8 \u043a\u043b\u0430\u0441",
+            "url": "https://brain-school.com.ua/8-j-klas-6/",
+            "photo": "https://upload.wikimedia.org/wikipedia/en/3/31/John_Wick_Chapter_Two.png"
+        },
+        {
+            "title": "9 \u043a\u043b\u0430\u0441",
+            "url": "https://brain-school.com.ua/9-j-klas-5/",
+            "photo": "https://upload.wikimedia.org/wikipedia/en/9/94/John_Wick_Chapter_3_Parabellum.png"
+        },
+        {
+            "title": "10 \u043a\u043b\u0430\u0441",
+            "url": "https://brain-school.com.ua/10-j-klas-4/",
+            "photo": "https://upload.wikimedia.org/wikipedia/en/d/d0/John_Wick_-_Chapter_4_promotional_poster.jpg",
+        },
+        {
+            "title": "11 \u043a\u043b\u0430\u0441",
+            "url": "https://brain-school.com.ua/11-j-klas-4/",
+            "photo": "https://m.media-amazon.com/images/M/MV5BZjRjOTFkOTktZWUzMi00YzMyLThkMmYtMjEwNmQyNzliYTNmXkEyXkFqcGdeQXVyNzQ1ODk3MTQ@._V1_FMjpg_UX1000_.jpg",
+        }
+    ]
+}
