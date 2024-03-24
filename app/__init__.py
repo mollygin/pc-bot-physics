@@ -7,6 +7,7 @@ from aiogram.types import Message
 from aiogram.utils.markdown import hbold
 
 from .routers import film_router
+#from .keyboards import (build_menu_keyboard)
 
 load_dotenv()
 
@@ -16,7 +17,7 @@ root_router.include_router(film_router)
 
 @root_router.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
-    await message.answer(f"Hello, {hbold(message.from_user.full_name)}!")
+    await message.answer(f"Привіт, {hbold(message.from_user.full_name)}!")#build_menu_keyboard()
 
 async def main() -> None:
     TOKEN = getenv("BOT_TOKEN")

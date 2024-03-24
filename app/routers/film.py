@@ -10,26 +10,24 @@ from ..data import (
     get_film,
     save_film
 )
+
 from ..keyboards import (
     build_films_keyboard,
     build_film_details_keyboard,
     build_menu_keyboard
 )
+
 from ..fsm import FilmCreateForm
 
 film_router = Router()
 
-#Buttons
 @film_router.message(Command("formulas"))
 @film_router.message(F.text.casefold() == "formulas")
 async def show_films_command(message: Message, state: FSMContext) -> None:
-    keyboard1 = build_menu_keyboard()
-    await message.answer("Choose an option:", reply_markup=keyboard1)
     films = get_films()
     keyboard = build_films_keyboard(films)
-    #message:
     await message.answer(
-        text="Виберіть свій клас: ",
+        text="Виберіть ваш клас:",
         reply_markup=keyboard
     )
 
@@ -38,13 +36,13 @@ async def show_films_command(message: Message, state: FSMContext) -> None:
 async def show_film_details(callback: CallbackQuery, state: FSMContext) -> None:
     film_id = int(callback.data.split("_")[-1])
     film = get_film(film_id)
-    text = (f"Ваш клас: {hbold(film.get('title'))}\n")
+    text = (f"Ваш клас: {hbold(film.get('title'))}\n"
+            f"Опис: {hbold(film.get('desc'))}")
     photo_id = film.get('photo')
-    for photo in photo_id:
-        await callback.message.answer_photo(photo)
-
     url = film.get('url')
+    await callback.message.answer_photo(photo_id)
     await edit_or_answer(callback.message, text, build_film_details_keyboard(url))
+
 
 async def edit_or_answer(message: Message, text: str, keyboard, *args, **kwargs):
     if message.from_user.is_bot:
@@ -54,24 +52,27 @@ async def edit_or_answer(message: Message, text: str, keyboard, *args, **kwargs)
 
 
 
-
-
 @film_router.message(Command("createform"))
 @film_router.message(F.text.casefold() == "createform")
 @film_router.message(F.text.casefold() == "create formula")
 async def create_film_command(message: Message, state: FSMContext) -> None:
     await state.clear()
     await state.set_state(FilmCreateForm.title)
-    await edit_or_answer(message, "Назва класу/формул: ", ReplyKeyboardRemove())
+    await edit_or_answer(message, "Назва формул/таблиці: ", ReplyKeyboardRemove())
 
 @film_router.message(FilmCreateForm.title)
 async def proces_title(message: Message, state: FSMContext) -> None:
     await state.update_data(title=message.text)
+    await state.set_state(FilmCreateForm.desc)
+    await edit_or_answer(message, "Опис до формул/таблиці?", ReplyKeyboardRemove())
+
+@film_router.message(FilmCreateForm.desc)
+async def proces_description(message: Message, state: FSMContext) -> None:
     data = await state.update_data(desc=message.text)
     await state.set_state(FilmCreateForm.url)
     await edit_or_answer(
         message,
-        f"Ссилка на формули: {hbold(data.get('title'))}",
+        f"Посилання на фільм: {hbold(data.get('title'))}",
         ReplyKeyboardRemove(),
     )
 
@@ -81,7 +82,7 @@ async def proces_url(message: Message, state: FSMContext) -> None:
     data = await state.update_data(url=message.text)
     await state.set_state(FilmCreateForm.photo)
     await edit_or_answer(
-        message,f"Фотографії: {hbold(data.get('title'))}", ReplyKeyboardRemove(),)
+        message,f"Фотографії: {hbold(data.get('title'))}", ReplyKeyboardRemove())
 
 @film_router.message(FilmCreateForm.photo)
 @film_router.message(F.photo)
